@@ -1,39 +1,32 @@
 package net.engineeringdigest.journalapp.service;
 
+
+import net.engineeringdigest.journalapp.entity.User;
 import net.engineeringdigest.journalapp.repository.UserRepository;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.EnumSource;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-public class UserServiceTests {
+class UserServiceTests {
 
     @Autowired
     private UserRepository userRepository;
 
-    @BeforeAll
-    static void setUp(){
+    @Autowired
+    private UserService userService;
 
-    }
 
     @Disabled
     @ParameterizedTest
-    @ValueSource(strings ={
-            "ram",
-            "Shyam"
-    })
-    public void testFindByUserName() {
-        assertNotNull(userRepository.findByUserName("ram"));
+    @ArgumentsSource(UserArgumentsProvider.class)
+    void testSaveNewUser(User user) {
+        assertTrue(userService.saveNewUser(user));
     }
 
     @Disabled
@@ -42,7 +35,7 @@ public class UserServiceTests {
             "1,1,2",
             "2,10,12"
     })
-    public void test(int a, int b, int expected){
+    void test(int a, int b, int expected){
         assertEquals(expected, a+b);
     }
 }

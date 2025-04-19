@@ -14,12 +14,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.test.context.ActiveProfiles;
+
 
 import java.util.ArrayList;
 
 import static org.mockito.Mockito.when;
 
-public class CustomUserDetailsServiceImplTest {
+@ActiveProfiles("dev")
+public class CustomUserDetailsServiceImplTests {
 
     @InjectMocks
     private CustomUserDetailsServiceImpl userDetailsService;
@@ -34,9 +37,10 @@ public class CustomUserDetailsServiceImplTest {
 
     @Disabled
     @Test
-    void loadUserByUserNametest(){
-        //when(userRepository.findByUserName(ArgumentMatchers.anyString())).thenReturn(User.builder().username("ram").password("ram").roles("USER").build());
+    void  loadUserByUserNameTest(){
+        when(userRepository.findByUserName(ArgumentMatchers.anyString())).thenReturn(User.builder().userName("ram").password("asdfa").roles(new ArrayList<>()).build());
         UserDetails user = userDetailsService.loadUserByUsername("ram");
         Assertions.assertNotNull(user);
     }
+
 }
